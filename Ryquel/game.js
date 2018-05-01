@@ -19,6 +19,8 @@ function preload() {
     var scoreString = '';
     var scoreText; 
 
+    scoreString = 'Score : ';
+scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#fff' });
 }
 
 function create() {
@@ -27,7 +29,7 @@ function create() {
   game.scale.pageAlignVertically = true
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.physics.startSystem(Phaser.Physics.ARCADE);
-
+   
   game.stage.backgroundColor = '#5c94fc';
 
   map = game.add.tilemap('level');
@@ -45,7 +47,7 @@ function create() {
   map.createFromTiles(2, null, 'coin', 'stuff', coins);
   coins.callAll('animations.add', 'animations', 'spin', [0], 3, true);
   coins.callAll('animations.play', 'animations', 'spin');
-
+    
   goombas = game.add.group();
   goombas.enableBody = true;
   map.createFromTiles(1, null, 'goomba', 'stuff', goombas);
@@ -118,8 +120,10 @@ function update() {
 function coinOverlap(player, coin) {
   coin.kill();
     
-    scoreString = 'Score : ';
-    scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#fff' });
+     score += 1;
+    scoreText.text = scoreString + score;
+    
+   
     
 }
 
@@ -142,6 +146,7 @@ function goombaOverlap(player, goomba) {
     player.animations.stop();
     game.time.events.add(Phaser.Timer.SECOND * 3, function() {
       game.paused = true;
+        //need to add "game over" text
     });
   }
 }
