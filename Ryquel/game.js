@@ -11,9 +11,14 @@ function preload() {
   game.load.spritesheet('tiles', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/tiles_dctsfk.png', 16, 16);
   game.load.spritesheet('goomba', 'assets/Enemy.png', 24, 24);
   game.load.spritesheet('mario', 'assets/happy dino.png', 24, 24);
-  game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
+  game.load.spritesheet('coin', 'assets/leaf.png', 20, 20);
 
   game.load.tilemap('level', 'https://api.myjson.com/bins/3kk2g', null, Phaser.Tilemap.TILED_JSON);
+    
+    var score = 0;
+    var scoreString = '';
+    var scoreText; 
+
 }
 
 var score = 0; 
@@ -36,10 +41,11 @@ function create() {
   layer = map.createLayer('solid');
   layer.resizeWorld();
 
+    
   coins = game.add.group();
   coins.enableBody = true;
   map.createFromTiles(2, null, 'coin', 'stuff', coins);
-  coins.callAll('animations.add', 'animations', 'spin', [0, 0, 1, 2], 3, true);
+  coins.callAll('animations.add', 'animations', 'spin', [0], 3, true);
   coins.callAll('animations.play', 'animations', 'spin');
 
   goombas = game.add.group();
@@ -113,6 +119,10 @@ function update() {
 
 function coinOverlap(player, coin) {
   coin.kill();
+    
+    scoreString = 'Score : ';
+    scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#fff' });
+    
 }
 
 function changedirection(tiles, goombas){
