@@ -16,6 +16,8 @@ function preload() {
   game.load.tilemap('level', 'https://api.myjson.com/bins/3kk2g', null, Phaser.Tilemap.TILED_JSON);
 }
 
+var score = 0; 
+
 function create() {
   Phaser.Canvas.setImageRenderingCrisp(game.canvas)
   game.scale.pageAlignHorizontally = true;
