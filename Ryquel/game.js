@@ -15,13 +15,12 @@ function preload() {
 
   game.load.tilemap('level', 'https://api.myjson.com/bins/3kk2g', null, Phaser.Tilemap.TILED_JSON);
     
-    var score = 0;
-    var scoreString = '';
-    var scoreText; 
+  var score = 0;
+  var scoreString = '';
+  var scoreText; 
+
 
 }
-
-var score = 0; 
 
 function create() {
   Phaser.Canvas.setImageRenderingCrisp(game.canvas)
@@ -72,9 +71,14 @@ function create() {
   game.camera.follow(player);
 
   cursors = game.input.keyboard.createCursorKeys();
+
+  scoreString = 'Score : ';
+  scoreText = game.add.text(10, 10, scoreString + score, { font: '12px Arial', fill: '#fff' });
+
 }
 
 function update() {
+
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
   game.physics.arcade.overlap(player, goombas, goombaOverlap);
@@ -119,9 +123,9 @@ function update() {
 
 function coinOverlap(player, coin) {
   coin.kill();
-    
-    scoreString = 'Score : ';
-    scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#fff' });
+  //scoreString = 'Score : ';
+  //scoreText = game.add.text(10, 10, scoreString + score, { font: '12px Arial', fill: '#fff' });
+
     
 }
 
