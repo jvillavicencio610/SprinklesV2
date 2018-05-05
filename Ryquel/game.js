@@ -65,7 +65,7 @@ function create() {
   goombas.callAll('animations.add', 'animations', 'goombaWalkRight', [0, 1, 2, 3], 6, true);
   goombas.callAll('animations.add', 'animations', 'goombaWalkLeft', [4, 5, 6, 7], 6, true);
 // goombas.callAll('animations.play', 'animations', 'goombaWalkLeft');
-    goombas.callAll('play', null, 'goombaWalkLeft');
+  goombas.callAll('play', null, 'goombaWalkLeft');
   goombas.setAll('body.bounce.x', 1);
   goombas.setAll('body.velocity.x', -20);
   goombas.setAll('body.gravity.y', 500);
@@ -81,9 +81,14 @@ function create() {
   game.camera.follow(player);
 
   cursors = game.input.keyboard.createCursorKeys();
+
+  scoreString = 'Score : ';
+  scoreText = game.add.text(10, 10, scoreString + score, { font: '12px Arial', fill: '#fff' });
+
 }
 
 function update() {
+
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
     game.physics.arcade.collide(goombas, 'tiles', changedirection, null, this);
@@ -122,12 +127,11 @@ function update() {
 }
 
 function coinOverlap(player, coin) {
-  
-    
+
      score += 1;
     text.text = "Score: " + score;
     coin.kill();
-   
+
     
 }
 
