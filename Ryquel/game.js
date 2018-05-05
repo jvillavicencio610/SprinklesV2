@@ -5,7 +5,11 @@ var game = new Phaser.Game(256, 240, Phaser.CANVAS, '', {
   update: update
 }, false, false);
 
-
+var score = 0;
+    var scoreString = '';
+    var scoreText;
+var sprite;
+var text;
 
 function preload() {
   game.load.spritesheet('tiles', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/tiles_dctsfk.png', 16, 16);
@@ -15,12 +19,17 @@ function preload() {
 
   game.load.tilemap('level', 'https://api.myjson.com/bins/3kk2g', null, Phaser.Tilemap.TILED_JSON);
     
-    var score = 0;
-    var scoreString = '';
-    var scoreText; 
+    
 
-    scoreString = 'Score : ';
-scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#fff' });
+//    scoreString = 'Score : ';
+//    scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#fff' });
+    //Created a Sprite with fixedToCamera = true
+    sprite = game.add.sprite(0,0);
+    sprite.fixedToCamera = true;//addChild of my text at x:0, y:0
+    text = game.add.text(0,0,"Score: 0");
+    sprite.addChild(text);//position the cameraOffset of my Sprite
+    sprite.cameraOffset.x = 20;
+    sprite.cameraOffset.y = 20;
 }
 
 function create() {
@@ -77,10 +86,12 @@ function create() {
 function update() {
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
+    game.physics.arcade.collide(goombas, 'tiles', changedirection, null, this);
   game.physics.arcade.overlap(player, goombas, goombaOverlap);
   game.physics.arcade.overlap(player, coins, coinOverlap);
     
-    game.physics.arcade.collide(goombas, 'tiles', changedirection, null, this);
+    
+    
 
   if (player.body.enable) {
     player.body.velocity.x = 0;
@@ -108,21 +119,14 @@ function update() {
       else player.frame = 4;
     }
   }
-//    goombas.forEach(function(g) {
-//      if(g.body.velocity.x > 0) {
-//        g.animations.play('goombaWalkRight');
-//      } else {
-//        g.animations.play('goombaWalkLeft');
-//      }
-//  }
 }
 
 function coinOverlap(player, coin) {
-  coin.kill();
+  
     
      score += 1;
-    scoreText.text = scoreString + score;
-    
+    text.text = "Score: " + score;
+    coin.kill();
    
     
 }
@@ -147,6 +151,8 @@ function goombaOverlap(player, goomba) {
     game.time.events.add(Phaser.Timer.SECOND * 3, function() {
       game.paused = true;
         //need to add "game over" text
+        player.kill();
+        
     });
   }
 }
